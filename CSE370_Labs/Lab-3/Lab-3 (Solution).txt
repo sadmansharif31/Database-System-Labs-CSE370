@@ -1,0 +1,97 @@
+Name: Sadman Sharif
+
+ID: 20101107
+
+Section: 07
+
+create database bigger_task;
+
+use bigger_task;
+
+create table Employees
+(
+ employee_id char(10),
+ first_name varchar(20),
+ last_name varchar(20),
+ email varchar(20),
+ phone_number char(14),
+ hire_date date,
+ job_id int,
+ salary int,
+ commission_pct decimal(5,3),
+ manager_id char(10),
+ department_id int 
+);
+
+
+Insert into Employees values
+
+('E001','Michael','Scott','scott31@gmail.com','01792373831',
+'1999-09-20',5012,100000,56.987,'203',4),
+
+('E002','Jim','Harper','harper11@gmail.com','01792373832',
+'2009-02-15',5112,60000,65.999,'101',4),
+
+('E003','Pam','Beesly','beesly12@yahoo.com','01792173832',
+'2010-06-25',6112,50000,39.369,'376',5),
+
+('E004','Angela','Martin','angela123@gmail.com','01892173832',
+'2005-10-2',7192,80000,67.309,'785',5),
+
+('E005','Dwight','Shrute','shrute59@hot.com','01892373832',
+'2003-5-29',8191,90000,11.679,'198',7), 
+
+('E006','Kelly','Kapoor','kelly19@yahoo.com','01892374832',
+'2010-06-25',1191,15000,13.239,'203',7),
+
+('E007','Andrew','Bernard','bernard129@yahoo.com','01942374832',
+'2009-10-11',2981,45000,85.119,'376',9),
+
+('E008','Kevin','Malone','kevin76@gmail.com','01942374132',
+'2007-12-7',9921,2950,76.459,'203',10),
+
+('E009','Toby','Flender','flender56@hot.com','01541374132',
+'2002-7-17',4723,75000,19.367,'904',10),
+
+('E010','Creed','Bratton','creed16@gmail.com','01641974112',
+'1980-06-01',7733,91000,81.257,'785',12);
+
+
+
+# Task-1
+
+select first_name,last_name,email,phone_number,hire_date,department_id from employees where hire_date= (select max(hire_date) from employees);
+
+# Task-2
+
+Select first_name,last_name,employee_id,phone_number,salary,department_id from employees where (department_id,salary) in (Select department_id, min(salary) from employees group by department_id);
+
+# Task-3
+
+Select first_name,last_name,employee_id,commission_pct,department_id from employees where department_id=7 and commission_pct<all (Select commission_pct from employees where department_id=5);
+
+# Task-4
+
+select department_id, count(*) from employees where salary>30000 group by department_id;
+
+# Task-5
+
+Select department_id,job_id,commission_pct from employees L1 where exists (select*from employees L2 where L1.department_id=L2.department_id and  L1.commission_pct<L2.commission_pct and L1.job_id!=L2.job_id);
+
+# Task-6
+
+select distinct manager_id from employees group by manager_id having min(salary)>3500;
+
+# Task-7
+
+select first_name, last_name, employee_id, email, salary, department_id, commission_pct from employees where (manager_id,commission_pct) in (Select manager_id, min(commission_pct) from employees group by manager_id);
+
+
+
+
+
+
+
+
+
+
